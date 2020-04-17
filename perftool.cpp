@@ -1,8 +1,10 @@
 #include "perftool.h"
 
 Profiler profiler;
+bool isInfoDumped = false;
 
 Profiler::Profiler() {
+	// printf("Hello\n");
 	if (PAPI_library_init(PAPI_VER_CURRENT) != PAPI_VER_CURRENT) {
 		exit(-1);
 	}
@@ -45,13 +47,16 @@ Profiler::~Profiler() {
     if (PAPI_destroy_eventset(&eventSet) != PAPI_OK) {
 		exit(-1);
 	}
-
+    if (!isInfoDumped) {
+    	dumpInfo();
+	isInfoDumped = true;
+    }
     PAPI_shutdown();
 }
 
 void Profiler::dumpInfo() {
-	for (int i = 0; i , EVENT_SIZE; i++) {
+	for (int i = 0; i < EVENT_SIZE; i++) {
 		values[i] = end[i] - start[i];
+		printf("PAPI: %lld\n", values[i]);
 	}
-	fprintf(stdout, "%lld\n", values[i]);
 }

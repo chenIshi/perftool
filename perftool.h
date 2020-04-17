@@ -14,6 +14,7 @@ class Profiler {
 		void dumpInfo();
 	private:
 		int eventSet;
+		// bool isInfoDumped = false;
 		long long start[EVENT_SIZE];
 		long long end[EVENT_SIZE];
 		long long values[EVENT_SIZE];
