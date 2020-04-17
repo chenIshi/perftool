@@ -1,7 +1,11 @@
+#include <iostream>
 #include "perftool.h"
+#include <stdio.h>
+#include <cstring>
 
 Profiler profiler;
 bool isInfoDumped = false;
+char eventName[EVENT_SIZE][1024];
 
 using namespace std;
 
@@ -26,46 +30,65 @@ Profiler::Profiler() {
 	// Branch Prediction Part
 	// add perf event "Conditional branch instructions mispredicted"
 	if (PAPI_add_event(eventSet, PAPI_BR_MSP) != PAPI_OK) {
-		eventName[0] = "Cond Mispredicted Branch Inc";
+		// eventName[0] = "Cond Mispredicted Branch Inc";
 		exit(-1);
+	} else {
+		// eventName[0] = "Cond Mispredicted Branch Inc";
+		strcpy(eventName[0], "Cond Mispredicted Branch Inc");
 	}
         
 	// add perf event "Conditional branch instructions"
     if (PAPI_add_event(eventSet, PAPI_BR_CN) != PAPI_OK) {
-		eventName[1] = "Cond Branch Inc";
+		//eventName[1] = "Cond Branch Inc";
 		exit(-1);
+	} else {
+		//eventName[1] = "Cond Branch Inc";
+		strcpy(eventName[1], "Cond Branch Inc");
 	}
     
 	// add perf event "Conditional branch instructions correctly predicted"
     if (PAPI_add_event(eventSet, PAPI_BR_PRC) != PAPI_OK) {
-		eventName[2] = "Cond Predicted Branch Inc";
+		// eventName[2] = "Cond Predicted Branch Inc";
 		exit(-1);
+	} else {
+		// eventName[2] = "Cond Predicted Branch Inc";
+		strcpy(eventName[2], "Cond Predicted Branch Inc");
 	}
 
 	// CPI related
 	// add perf event "Total cycles "
 	if (PAPI_add_event(eventSet, PAPI_TOT_CYC) != PAPI_OK) {
-		eventName[3] = "Total cycles ";
+		// eventName[3] = "Total cycles ";
 		exit(-1);
+	} else {
+		// eventName[3] = "Total cycles";
+		strcpy(eventName[3], "Total cycles");
 	}
 	// add perf event "Instructions completed"
 	if (PAPI_add_event(eventSet, PAPI_TOT_INS) != PAPI_OK) {
-		eventName[4] = "Instructions completed";
+	//	eventName[4] = "Instructions completed";
 		exit(-1);
+	} else {
+		strcpy(eventName[4], "Instructions completed");
+		// eventName[4] = "Instructions completed";
 	}
-
+/*
 	// TLB related
 	// add perf event "Data translation lookaside buffer misses"
 	if (PAPI_add_event(eventSet, PAPI_TLB_DM) != PAPI_OK) {
 		eventName[5] = "Data translation lookaside buffer misses";
 		exit(-1);
 	}
+*/
 	// add perf event "Instruction translation lookaside buffer misses"
 	if (PAPI_add_event(eventSet, PAPI_TLB_IM) != PAPI_OK) {
-		eventName[6] = "Instruction translation lookaside buffer misses";
+		// eventName[6] = "Instruction translation lookaside buffer misses";
 		exit(-1);
+	} else {
+		// eventName[6] = "Instruction translation lookaside buffer misses";
+		strcpy(eventName[6], "Instruction translation lookaside buffer misses");
 	}
-
+/*
 	// L1-cache
 	// add perf event "L1 total cache misses"
 	if (PAPI_add_event(eventSet, PAPI_L1_TCM) != PAPI_OK) {
@@ -79,7 +102,7 @@ Profiler::Profiler() {
 		eventName[8] = "L2 total cache misses";
 		exit(-1);
 	}
-
+*/
 	if (PAPI_start(eventSet) != PAPI_OK) {
 		exit(-1);
 	}
@@ -112,7 +135,8 @@ void Profiler::dumpInfo() {
 	printf("#### PAPI PERF #####\n");
 	for (int i = 0; i < EVENT_SIZE; i++) {
 		values[i] = end[i] - start[i];
-		cout << eventName[i] << ": " << values[i] << endl;
+		printf("%s: %lld\n", eventName[i], values[i]);
+		// cout << eventName[i] << ": " << values[i] << endl;
 	}
 	printf("##################\n");
 }
