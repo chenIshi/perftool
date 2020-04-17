@@ -3,9 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include "papi.h"
 
-#define EVENT_SIZE 4
+#define EVENT_SIZE 9
 
 class Profiler {
 	public:
@@ -14,7 +15,8 @@ class Profiler {
 		void dumpInfo();
 	private:
 		int eventSet;
-		// bool isInfoDumped = false;
+
+		string eventName[EVENT_SIZE];
 		long long start[EVENT_SIZE];
 		long long end[EVENT_SIZE];
 		long long values[EVENT_SIZE];
