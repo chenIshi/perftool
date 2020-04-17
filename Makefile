@@ -8,10 +8,10 @@ ALL: EXEC
 
 # g++ -I/usr/local/include -O0 -fpermissive prime_sieve-64.c perftool.cpp /usr/local/lib/libpapi.a -o prime
 EXEC: prime_sieve-64.c perftool.cpp /usr/local/lib/libpapi.a
-	$(CC) -I$(INC_LIB) $(CFLAGS) $< -o $@
+	$(CC) -I$(INC_LIB) $(CFLAGS) $^ -o $(EXEC)
 
 
 .PHONY : clean
 
 clean:
-	rm $(EXEC) *.o
+	rm -rf $(EXEC) *.o
